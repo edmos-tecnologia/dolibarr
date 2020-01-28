@@ -14,7 +14,7 @@ services:
             MYSQL_PASSWORD: edmoserp@2020
             MYSQL_ROOT_PASSWORD: admin@123
         volumes: 
-            - edmos-mysql:/var/lib/mysql
+            - dolibarr_db:/var/lib/mysql
 
     edmos_dolibarr:
         container_name: edmos-dolibarr
@@ -35,15 +35,13 @@ services:
         depends_on:
             - edmos_db
         volumes: 
-            - edmos-dolibarr:/var/www/html
-            - edmos-dolibarr:/var/www/documents
-            - edmos-dolibarr:/var/www/html/theme
-            - edmos-dolibarr:/var/www/html/conf
-            - edmos-dolibarr:/var/www/html/custom
+            - dolibarr_html:/var/www/html
+            - dolibarr_docs:/var/www/documents
 
 networks:
     default:
 
 volumes: 
-    edmos-dolibarr:
-    edmos-mysql:
+    dolibarr_html:
+    dolibarr_docs:
+    dolibarr_db:
