@@ -2,9 +2,10 @@ version: '3.1'
 
 services:
     edmos-db:
-        container_name: edmosdb
+        container_name: edmos-db
         image: mysql:5.7
         restart: always
+        command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
         networks:
             - default
         environment: 
@@ -25,7 +26,7 @@ services:
         networks:
             - default
         environment: 
-            DOLI_DB_HOST: edmosdb 
+            DOLI_DB_HOST: edmos-db 
             DOLI_DB_USER: edmoserp
             DOLI_DB_PASSWORD: edmoserp@2020
             DOLI_DB_NAME: edmerpdb
