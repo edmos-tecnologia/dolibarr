@@ -1,12 +1,10 @@
-version: 3.1
+version: '3.1'
 
 services:
     edmos-db:
-        container_name: edmos-db
+        container_name: edmosdb
         image: mysql:5.7
         restart: always
-        ports: 
-            3306:3306
         networks:
             - default
         environment: 
@@ -15,29 +13,31 @@ services:
             MYSQL_PASSWORD: edmoserp@2020
             MYSQL_RANDOM_ROOT_PASSWORD: 1
         volumes: 
-            - edmos-mysql: /var/lib/mysql
+            - edmos-mysql:/var/lib/mysql
 
     edmos-dolibarr:
         container_name: edmos-dolibarr
         build: .
         image: edmos-erp:latest
         restart: always
+        ports:
+            - 80:80
         networks:
             - default
         environment: 
-            - DOLI_DB_HOST: edmos-db 
-            - DOLI_DB_USER: edmoserp
-            - DOLI_DB_PASSWORD: edmoserp@2020
-            - DOLI_DB_NAME: edmerpdb
-            - PHP_INI_DATE_TIMEZONE: 'America/Sao_Paulo'
+            DOLI_DB_HOST: edmosdb 
+            DOLI_DB_USER: edmoserp
+            DOLI_DB_PASSWORD: edmoserp@2020
+            DOLI_DB_NAME: edmerpdb
+            PHP_INI_DATE_TIMEZONE: 'America/Sao_Paulo'
         depends_on:
             - edmos-db
         volumes: 
-            - edmos-dolibarr: /var/www/html
-            - edmos-dolibarr: /var/www/documents
-            - edmos-dolibarr: /var/www/html/theme
-            - edmos-dolibarr: /var/www/html/conf
-            - edmos-dolibarr: /var/www/html/custom
+            - edmos-dolibarr:/var/www/html
+            - edmos-dolibarr:/var/www/documents
+            - edmos-dolibarr:/var/www/html/theme
+            - edmos-dolibarr:/var/www/html/conf
+            - edmos-dolibarr:/var/www/html/custom
 
 networks:
     default:
